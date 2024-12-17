@@ -33,7 +33,9 @@ io.on('connection', socket => {
   // message event
   socket.on('message', data => {
     console.log(data)
-    // io.emit('message', data);
+    //  io.emit('received_message', data) // this show the message to all the sockets, because io is the circuit
+
+    socket.broadcast.emit('received_message', data) // this will only show the message to other not-me
   })
 
   // disconnect event

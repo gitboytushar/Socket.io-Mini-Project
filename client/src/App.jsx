@@ -10,13 +10,18 @@ const App = () => {
   const handleSubmit = e => {
     e.preventDefault()
     socket.emit('message', message)
-    setMessage('')
+    setMessage('') // empty the input field
   }
 
   // pre built event in sockets.io
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected...', socket.id)
+    })
+
+    // put listener for message form the server
+    socket.on('received_message', data => {
+      console.log('data received:', data)
     })
 
     socket.on('welcome', s => {
