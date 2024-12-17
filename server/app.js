@@ -28,9 +28,18 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', socket => {
-  console.log('User connected... id -', socket.id)
-  socket.emit('welcome', `Welcome to the Server... ${socket.id}`) // parameters -> function_name, message
-  socket.broadcast.emit('welcome', `${socket.id} Joined the server...`) // parameters -> function_name, message
+  console.log('User connected...', socket.id)
+
+  // message event
+  socket.on('message', data => {
+    console.log(data)
+    // io.emit('message', data);
+  })
+
+  // disconnect event
+  socket.on('disconnect', () => {
+    console.log('User disconnected...', socket.id)
+  })
 })
 
 // do 'server.listen' to make sure that both the io and server is on same port
