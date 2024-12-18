@@ -27,15 +27,18 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+// main circuit
 io.on('connection', socket => {
   console.log('User connected...', socket.id)
 
   // message event
-  socket.on('message', data => {
-    console.log(data)
+  socket.on('message', ({ room, message }) => {
+    console.log({ room, message })
     //  io.emit('received_message', data) // this show the message to all the sockets, because io is the circuit
+    //  socket.broadcast.emit('received_message', data) // this will only show the message to other not-me
 
-    socket.broadcast.emit('received_message', data) // this will only show the message to other not-me
+    //  send message to particular socket id, by using rooms in socket.io
+    io.to(room).emit('received_message', message)
   })
 
   // disconnect event
