@@ -15,13 +15,13 @@ const io = new Server(server, {
   }
 })
 
-app.use(
-  cors({
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST'],
-    credentials: true
-  })
-)
+// app.use(
+//   cors({
+//     origin: 'http://localhost:5173',
+//     methods: ['GET', 'POST'],
+//     credentials: true
+//   })
+// )
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -31,19 +31,26 @@ app.get('/', (req, res) => {
 io.on('connection', socket => {
   console.log('User connected...', socket.id)
 
-  // message event
+  // send message event
   socket.on('message', ({ room, message }) => {
     console.log({ room, message })
     //  io.emit('received_message', data) // this show the message to all the sockets, because io is the circuit
     //  socket.broadcast.emit('received_message', data) // this will only show the message to other not-me
 
     //  send message to particular socket id, by using rooms in socket.io
-    io.to(room).emit('received_message', message)
+    socket.to(room).emit('received_message', message) // works same as below, when to() is used
+    //  io.to(room).emit('received_message', message)
   })
 
   // disconnect event
   socket.on('disconnect', () => {
     console.log('User disconnected...', socket.id)
+  })
+
+  // join room event
+  socket.on('join-room', room => {
+    socket.join(room)
+    console.log(`User ${socket.id} - joined Room: ${room}`)
   })
 })
 
