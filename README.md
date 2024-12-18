@@ -11,9 +11,9 @@ This mini local chat web-app showcases the implementation of socket.io via simpl
 
 ![App Screenshot](https://drive.google.com/uc?export=view&id=1kyAAaRqcAttXlpWb1pYJsjQI2qCwotVX)
 
-## Watch The Video Demo Here
+## Watch The Working Demo
 
-[Click me](asd)
+[Link to Youtube video](https://youtu.be/x0vAYMjXzqQ)
 
 ## Installation and Local Preview
 
